@@ -1,0 +1,17 @@
+Public Function LastCellInSheet(Optional wks As Worksheet) As Range
+' Returns the cell at the bottom right corner of the sheet's real used range
+  Dim lngLastCol As Long, lngLastRow As Long
+  lngLastCol = 1
+  lngLastRow = 1
+  On Error Resume Next
+  If wks Is Nothing Then Set wks = ActiveSheet
+  With wks.UsedRange
+    lngLastCol = .Cells.Find(what:="*", after:=.Cells(1), _
+      SearchOrder:=xlByColumns, _
+      SearchDirection:=xlPrevious, searchformat:=False).Column
+    lngLastRow = .Cells.Find(what:="*", after:=.Cells(1), _
+      SearchOrder:=xlByRows, _
+      SearchDirection:=xlPrevious, searchformat:=False).Row
+  End With
+  Set LastCellInSheet = wks.Cells(lngLastRow, lngLastCol)
+End Function
