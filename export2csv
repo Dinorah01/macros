@@ -1,0 +1,32 @@
+Option Explicit
+
+Sub export2csv()
+
+'Macro para exportar una hoja de Excel a un archivo con formato csv
+'DCPR
+
+    Dim lastColumn As Integer
+    Dim lastRow As Integer
+    Dim strString As String
+    Dim i As Integer, j As Integer
+
+    lastColumn = ActiveSheet.UsedRange.Column - 1 + ActiveSheet.UsedRange.Columns.Count
+    lastRow = ActiveSheet.UsedRange.Rows(ActiveSheet.UsedRange.Rows.Count).Row
+
+    Open "output.csv" For Output As #1
+
+    For i = 1 To lastRow
+        Cells(i, 1).Select
+        strString = ""
+        For j = 1 To lastColumn
+            If j <> lastColumn Then
+                strString = strString & Cells(i, j).Value & ";" ' Use semicolon instead of pipe.
+            Else
+                strString = strString & Cells(i, j).Value
+            End If
+        Next j
+        Print #1, strString
+    Next i
+
+    Close #1
+End Sub
